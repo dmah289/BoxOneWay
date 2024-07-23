@@ -14,10 +14,5 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         if(instance == null)
             instance = this;
-
-        Bounds bounds = wallCollider.bounds;
-        Debug.Log(bounds.size);
-
-
     }
 }
