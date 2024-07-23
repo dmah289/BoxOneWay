@@ -8,7 +8,8 @@ using UnityEngine.InputSystem;
 public class MovementController : MonoBehaviour
 {
     // Component
-    [SerializeField] Rigidbody2D rb2d;
+    public Rigidbody2D playerRb;
+    public Rigidbody2D platformRb;
 
     // Stats
     [SerializeField] int speed;
@@ -19,8 +20,8 @@ public class MovementController : MonoBehaviour
 
     // Logic
     bool btnSpacePressed;
-
     bool isWallTouch;
+    public bool isOnPlatform;
     public LayerMask wallLayer;
     public Transform wallCheckPoint;
 
@@ -28,6 +29,7 @@ public class MovementController : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        isOnPlatform = false;
     }
 
     private void Start()
@@ -39,7 +41,8 @@ public class MovementController : MonoBehaviour
     {
         UpdateSpeedMultiplier();
         float targetSpeed = speed * speedMultiplier * (relativeTransform.x / Mathf.Abs(relativeTransform.x));
-        rb2d.velocity = rb2d.velocity.With(x: targetSpeed);
+
+        MoveOnPlatform(targetSpeed);
 
         isWallTouch = Physics2D.OverlapBox(wallCheckPoint.position, new Vector2(0.05f, 0.5f), 0, wallLayer);
         if (isWallTouch)
@@ -64,6 +67,18 @@ public class MovementController : MonoBehaviour
             speedMultiplier -= Time.deltaTime * acceleration;
             if (speedMultiplier < 0f)
                 speedMultiplier = 0f;
+        }
+    }
+
+    private void MoveOnPlatform(float targetSpeed)
+    {
+        if(isOnPlatform)
+        {
+            playerRb.velocity = playerRb.velocity.With(x: (targetSpeed + platformRb.velocity.x));
+        }
+        else
+        {
+            playerRb.velocity = playerRb.velocity.With(x: targetSpeed);
         }
     }
 
