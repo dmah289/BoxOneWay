@@ -5,4 +5,5 @@ using UnityEngine;
 public class KeySave : MonoBehaviour
 {
     public static string player = "Player";
+    public static string ground = "Ground";
 }

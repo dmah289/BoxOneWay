@@ -5,11 +5,12 @@ using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MovementController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     // Component
     public Rigidbody2D playerRb;
     public Rigidbody2D platformRb;
+    public ParticleController particleController;
 
     // Stats
     [SerializeField] int speed;
@@ -19,8 +20,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] Vector2 relativeTransform;
 
     // Logic
-    bool btnSpacePressed;
-    bool isWallTouch;
+    public bool btnSpacePressed;
+    public bool isWallTouch;
     public bool isOnPlatform;
     public LayerMask wallLayer;
     public Transform wallCheckPoint;
@@ -44,7 +45,7 @@ public class MovementController : MonoBehaviour
 
         MoveOnPlatform(targetSpeed);
 
-        isWallTouch = Physics2D.OverlapBox(wallCheckPoint.position, new Vector2(0.05f, 0.5f), 0, wallLayer);
+        isWallTouch = Physics2D.OverlapBox(wallCheckPoint.position, new Vector2(0.05f, 0.45f), 0, wallLayer);
         if (isWallTouch)
             Flip();
     }
@@ -60,8 +61,11 @@ public class MovementController : MonoBehaviour
     private void UpdateSpeedMultiplier()
     {
         if(btnSpacePressed && speedMultiplier < 1f)
+        {
             speedMultiplier += Time.deltaTime * acceleration;
-
+            if(speedMultiplier > 1f)
+                speedMultiplier = 1f;
+        }
         else if(!btnSpacePressed && speedMultiplier > 0f)
         {
             speedMultiplier -= Time.deltaTime * acceleration;
@@ -84,6 +88,7 @@ public class MovementController : MonoBehaviour
 
     private void Flip()
     {
+        particleController.PlayTouchParticle(wallCheckPoint.position);
         transform.Rotate(0, 180, 0);
         UpdateRelativeTransform();
     }
