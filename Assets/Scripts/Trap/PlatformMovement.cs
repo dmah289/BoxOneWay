@@ -40,7 +40,7 @@ public class PlatformMovement : MonoBehaviour
 
     void Update()
     {
-        if (Vector2.Distance(transform.position, targetPos) < 0.05f)
+        if (Vector2.Distance(transform.position, targetPos) < 0.1f)
             NextTargetPoint();
     }
 

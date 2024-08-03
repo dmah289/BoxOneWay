@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     public float smoothTime;
     [SerializeField] Vector2 xLimit;
     [SerializeField] Vector2 yLimit;
+    public Animator animator;
 
     private void LateUpdate()
     {
