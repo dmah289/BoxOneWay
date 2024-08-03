@@ -21,18 +21,14 @@ public class LevelData : ScriptableObject
 [Serializable]
 public class PlatformData
 {
-    public Vector2[] positions;
-    public Vector2[] rotations;
-    public Vector2[] scales;
+    public Vector3[] pos;
+    public Quaternion[] rot;
+    public Vector3[] scale;
 }
 
 [Serializable]
 public class PlayerData
 {
-    public Vector2 position;
-    public Vector2 rotation;
-    public int Direction
-    {
-        get => rotation.x == 0 ? 1 : -1;
-    }
+    public Vector3 pos;
+    public Quaternion rot;
 }
