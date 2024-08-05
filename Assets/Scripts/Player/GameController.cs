@@ -43,6 +43,6 @@ public class GameController : MonoBehaviour
 
     public void UpdateCheckPoint(Vector2 pos)
     {
-        checkPointPos = pos.With(y: pos.y + 2f);
+        checkPointPos = pos.With(x: pos.x + 0.5f, y: pos.y + 2f);
     }
 }
